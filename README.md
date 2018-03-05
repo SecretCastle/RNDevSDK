@@ -10,6 +10,7 @@
 > MacOS需要安装的
 
 * react-native-debugger
+
 ![](http://oxzz0e76z.bkt.clouddn.com/100609.png)
 
 安装方法 [https://github.com/jhen0409/react-native-debugger](https://github.com/jhen0409/react-native-debugger)
