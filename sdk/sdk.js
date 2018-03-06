@@ -9,6 +9,14 @@ client.onopen = function() {
     console.log('WebSocket Connect Success');
 }
 
+client.onerror = function() {
+    console.log('发生错误');
+}
+
+client.onclose = function() {
+    console.log('客户端关闭');
+}
+
 /**
  * 工具类方法
  */
