@@ -1,11 +1,12 @@
+import { NativeModules, NativeEventEmitter } from 'react-native';
+const PLATFORM = "localhost"; // localhost | Native
+
 const HOST = "192.168.2.139";
 const PORT = "9901";
 
 const client = new WebSocket(`ws://${HOST}:${PORT}`);
-
-// console.log(client);
 client.onopen = function() {
-    console.log('open');
+    console.log('WebSocket Connect Success');
 }
 
 /**
@@ -82,25 +83,40 @@ const Tools = {
 /**
  * SDK 遵循ali接口定义规范
  */
-
-const RNSDK = {
+export default SDK = {
+    Bridge: NativeModules.RNDataBridge,
+    BridgeEmitter: new NativeEventEmitter(this.Bridge),
     DataBridge: {
         bindPushData(callback) {
-            client.onmessage = function(data) {
-                const receivedData = JSON.parse(data.data).data.data;
-                if (data) {
-                    const transData = Tools.paramTransfor('received', receivedData);
-                    callback(transData);
+            if (PLATFORM === 'localhost') {
+                client.onmessage = function(data) {
+                    const receivedData = JSON.parse(data.data).data.data;
+                    if (data) {
+                        const transData = Tools.paramTransfor('received', receivedData);
+                        callback(transData);
+                    }
                 }
+            } else if (PLATFORM === 'Native') {
+                this.BridgeEmitter.addListener('notification', (payload) => {
+                    if (payload.type === 'devicestatuts') {
+                        callback(payload.data);
+                    }
+                });
             }
         },
         setDeviceStatus(data) {
-            if (data) {
-                const sendData = Tools.paramTransfor('send', data);
-                client.send(JSON.stringify(sendData));
+            if (PLATFORM === 'localhost') {
+                if (data) {
+                    const sendData = Tools.paramTransfor('send', data);
+                    client.send(JSON.stringify(sendData));
+                }
+            } else if (PLATFORM === 'Native') {
+                this.Bridge.send({
+                    type: 'command',
+                    data: data
+                });
             }
         }
     }
 }
 
-export default RNSDK;
