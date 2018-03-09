@@ -1,4 +1,13 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
+
+
+/**
+ * 
+ * PLATFORM 
+ * 
+ * localhost: 本地调试
+ * Native: app调试
+ */
 const PLATFORM = "localhost"; // localhost | Native
 
 
