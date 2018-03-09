@@ -8,7 +8,7 @@ import { NativeModules, NativeEventEmitter } from 'react-native';
  * localhost: 本地调试
  * Native: app调试
  */
-const PLATFORM = "localhost"; // localhost | Native
+const PLATFORM = "Native"; // localhost | Native
 
 
 const HOST = "192.168.2.139";
@@ -132,6 +132,7 @@ export default SDK = {
          * @param {*} data 
          */
         setDeviceStatus(data) {
+            console.log(data);
             if (PLATFORM === 'localhost') {
                 if (data) {
                     const sendData = Tools.paramTransfor('send', data);

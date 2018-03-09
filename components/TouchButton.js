@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TouchableWithoutFeedback, Text, View } from 'react-native';
+import { TouchableWithoutFeedback, Text, View, Image } from 'react-native';
 
 class TouchButton extends Component {
     render () {
@@ -10,10 +10,15 @@ class TouchButton extends Component {
                 <View
                     style={{
                         alignItems: 'center',
-                        backgroundColor: '#f00'
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        paddingLeft: 5,
+                        paddingRight: 5,
+                        borderRadius: 10
                     }}
                 >
-                    <Text>{this.props.title}</Text>
+                    <Image source={this.props.img} />
+                    <Text style={{ lineHeight: 28 }}>{this.props.title}</Text>
                 </View>
             </TouchableWithoutFeedback>
         )
