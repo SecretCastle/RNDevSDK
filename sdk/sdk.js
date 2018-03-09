@@ -1,8 +1,10 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
 const PLATFORM = "localhost"; // localhost | Native
 
+
 const HOST = "192.168.2.139";
 const PORT = "9901";
+
 
 const client = new WebSocket(`ws://${HOST}:${PORT}`);
 client.onopen = function() {
@@ -95,6 +97,10 @@ export default SDK = {
     Bridge: NativeModules.RNDataBridge,
     BridgeEmitter: new NativeEventEmitter(this.Bridge),
     DataBridge: {
+        /**
+         * 绑定数据接口
+         * @param {*} callback 
+         */
         bindPushData(callback) {
             if (PLATFORM === 'localhost') {
                 client.onmessage = function(data) {
@@ -112,6 +118,10 @@ export default SDK = {
                 });
             }
         },
+        /**
+         * 下发数据接口
+         * @param {*} data 
+         */
         setDeviceStatus(data) {
             if (PLATFORM === 'localhost') {
                 if (data) {
