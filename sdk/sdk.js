@@ -10,22 +10,19 @@ import { NativeModules, NativeEventEmitter } from 'react-native';
  */
 const PLATFORM = "Native"; // localhost | Native
 
-
-const HOST = "192.168.2.139";
-const PORT = "9901";
-
-
-const client = new WebSocket(`ws://${HOST}:${PORT}`);
-client.onopen = function() {
-    console.log('WebSocket Connect Success');
-}
-
-client.onerror = function() {
-    console.log('发生错误');
-}
-
-client.onclose = function() {
-    console.log('客户端关闭');
+if (PLATFORM === 'localhost') {
+    const HOST = "192.168.2.139";
+    const PORT = "9901";
+    const client = new WebSocket(`ws://${HOST}:${PORT}`);
+    client.onopen = function() {
+        console.log('WebSocket Connect Success');
+    }
+    client.onerror = function() {
+        console.log('发生错误');
+    }
+    client.onclose = function() {
+        console.log('客户端关闭');
+    }
 }
 
 /**
