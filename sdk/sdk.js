@@ -8,12 +8,12 @@ import { NativeModules, NativeEventEmitter } from 'react-native';
  * localhost: 本地调试
  * Native: app调试
  */
-const PLATFORM = "Native"; // localhost | Native
-
+const PLATFORM = "localhost"; // localhost | Native
+let client;
 if (PLATFORM === 'localhost') {
     const HOST = "192.168.2.139";
     const PORT = "9901";
-    const client = new WebSocket(`ws://${HOST}:${PORT}`);
+    client = new WebSocket(`ws://${HOST}:${PORT}`);
     client.onopen = function() {
         console.log('WebSocket Connect Success');
     }
