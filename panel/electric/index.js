@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, Button, Image, PixelRatio, Dimensions } from 'react-native';
 import TouchButton from '../../components/TouchButton';
+import Scroll from '../../components/Scroll';
 import _sdk from '../../sdk/sdk';
 
 const styles = {
@@ -33,7 +34,21 @@ class SocketPanel extends Component {
     state = {
         switch: 0,
         delaySwitch: 0,
-        orderSwitch: 0
+        orderSwitch: 0,
+        showModal: false
+    }
+
+    componentDidMount () {
+        _sdk.DataBridge.bindPushData(res => {
+            this.renderDate(res);
+        });      
+    }
+
+    renderDate = (data) => {
+        const power = Number(data.power);
+        this.setState({
+            switch: power
+        })
     }
 
     ctrlFn = (target) => {
@@ -49,9 +64,11 @@ class SocketPanel extends Component {
                 break;
             case 1:
                 const delaystate = this.state.delaySwitch;
+                const show = this.state.showModal;
                 delaystate === 0
                     ? this.setState({ switch: 0, delaySwitch: 1, orderSwitch: 0 })
                     : this.setState({ switch: 0, delaySwitch: 0, orderSwitch: 0 });
+                this.setState({ showModal: !show });
                 break;
             case 2:
                 const orderstate = this.state.orderSwitch;
@@ -61,7 +78,12 @@ class SocketPanel extends Component {
                 break;
         }
     }
-
+    hideFn = (value) => {
+        console.log(value);
+        this.setState({
+            showModal: value
+        })
+    }
     render () {
         const openImgUrl = this.state.switch === 0 
             ? require('../../assets/images/open.png') 
@@ -74,9 +96,28 @@ class SocketPanel extends Component {
             : require('../../assets/images/orderSwitchbright.png');
         return (
             <View style={styles.container}>
+                <Scroll show={this.state.showModal} close={value => {this.hideFn}}/>
                 <View>
                     <Image 
+                        source={require('../../assets/images/socket.png')}
+                        style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            marginTop: Dimensions.get('window').height - 450
+                        }}
+                    />
+                    <Image 
                         source={require('../../assets/images/bg.png')}
+                        style={{
+                            position: 'absolute',
+                            left: 0,
+                            top: 0,
+                            width: Dimensions.get('window').width,
+                            height: Dimensions.get('window').height - 114
+                        }}
                     />
                 </View>
                 <View style={styles.bottomControl}>
