@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, Button, Image, PixelRatio, Dimensions } from 'react-native';
+import Picker from 'react-native-picker';
 import TouchButton from '../../components/TouchButton';
-import Scroll from '../../components/Scroll';
+import Scroll from '../../components/poplayout';
 import _sdk from '../../sdk/sdk';
 
 const styles = {
@@ -39,9 +40,9 @@ class SocketPanel extends Component {
     }
 
     componentDidMount () {
-        _sdk.DataBridge.bindPushData(res => {
-            this.renderDate(res);
-        });      
+        // _sdk.DataBridge.bindPushData(res => {
+        //     this.renderDate(res);
+        // });      
     }
 
     renderDate = (data) => {
@@ -63,11 +64,11 @@ class SocketPanel extends Component {
                 })
                 break;
             case 1:
-                const delaystate = this.state.delaySwitch;
+                // const delaystate = this.state.delaySwitch;
                 const show = this.state.showModal;
-                delaystate === 0
-                    ? this.setState({ switch: 0, delaySwitch: 1, orderSwitch: 0 })
-                    : this.setState({ switch: 0, delaySwitch: 0, orderSwitch: 0 });
+                // delaystate === 0
+                //     ? this.setState({ switch: 0, delaySwitch: 1, orderSwitch: 0 })
+                //     : this.setState({ switch: 0, delaySwitch: 0, orderSwitch: 0 });
                 this.setState({ showModal: !show });
                 break;
             case 2:
@@ -78,10 +79,15 @@ class SocketPanel extends Component {
                 break;
         }
     }
-    hideFn = (value) => {
-        console.log(value);
+    okfn = () => {
         this.setState({
-            showModal: value
+            showModal: false
+        })
+    }
+
+    cancelfn = () => {
+        this.setState({
+            showModal: false
         })
     }
     render () {
@@ -96,7 +102,22 @@ class SocketPanel extends Component {
             : require('../../assets/images/orderSwitchbright.png');
         return (
             <View style={styles.container}>
-                <Scroll show={this.state.showModal} close={value => {this.hideFn}}/>
+                <Scroll 
+                    show={this.state.showModal} 
+                    footer={true}
+                    okFn={this.okfn}
+                    cancelFn={this.cancelfn}
+                >
+                    <Text>Hello World</Text>
+                    <Text>Hello World</Text>
+                    <Text>Hello World</Text>
+                    <Text>Hello World</Text>
+                    <Text>Hello World</Text>
+                    <Text>Hello World</Text>
+                    <Text>Hello World</Text>
+                    <Text>Hello World</Text>
+                    <Text>Hello World</Text>
+                </Scroll>
                 <View>
                     <Image 
                         source={require('../../assets/images/socket.png')}
@@ -109,7 +130,7 @@ class SocketPanel extends Component {
                             marginTop: Dimensions.get('window').height - 450
                         }}
                     />
-                    <Image 
+                    <Image
                         source={require('../../assets/images/bg.png')}
                         style={{
                             position: 'absolute',
@@ -119,6 +140,7 @@ class SocketPanel extends Component {
                             height: Dimensions.get('window').height - 114
                         }}
                     />
+                    <Text>xxx后关机</Text>
                 </View>
                 <View style={styles.bottomControl}>
                     <View style={styles.btnIcon}>
